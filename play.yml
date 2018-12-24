@@ -1,11 +1,13 @@
 ---
-- hosts: my
-  remote_user: root
+- hosts: private
+  remote_user: vagrant
   tasks:
     - name: ensure docker is installed
       yum: 
-        name: docker
+        name: docker-ce
         state: latest
+      become: yes
+      become_method: sudo
     - name: check old docker env
       yum: 
         name:
@@ -20,17 +22,23 @@
           - docker-engine-selinux
           - docker-engine
         state: absent
-    - name: Set Up The Repository
+      become: yes
+      become_method: sudo
+
+    - name: yum install utils
       yum: 
         name: 
           - yum-utils
           - device-mapper-persistent-data
           - lvm2
-        state: latest
     - name: yum docker Repository
-      command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+      command: yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+      become: yes
+      become_method: sudo
 
     - name: install docker ce
       yum: 
         name: docker-ce
         state: latest
+      become: yes
+      become_method: sudo
