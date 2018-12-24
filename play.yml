@@ -1,0 +1,36 @@
+---
+- hosts: my
+  remote_user: root
+  tasks:
+    - name: ensure docker is installed
+      yum: 
+        name: docker
+        state: latest
+    - name: check old docker env
+      yum: 
+        name:
+          - docker
+          - docker-client
+          - docker-client-latest
+          - docker-common
+          - docker-latest
+          - docker-latest-logrotate
+          - docker-logrotate
+          - docker-selinux
+          - docker-engine-selinux
+          - docker-engine
+        state: absent
+    - name: Set Up The Repository
+      yum: 
+        name: 
+          - yum-utils
+          - device-mapper-persistent-data
+          - lvm2
+        state: latest
+    - name: yum docker Repository
+      command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+    - name: install docker ce
+      yum: 
+        name: docker-ce
+        state: latest
