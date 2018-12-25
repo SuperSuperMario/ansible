@@ -1,0 +1,16 @@
+---
+- name: ensure docker is installed
+  yum: 
+    name: docker-ce
+    state: latest
+  become: yes
+  become_method: sudo
+  # register: contents
+
+# - include_tasks: init.yml
+#   when: contents.stdout
+
+# get all refister output data
+# - name: test data
+#   debug: 
+#     msg: '{{ contents.msg }}'

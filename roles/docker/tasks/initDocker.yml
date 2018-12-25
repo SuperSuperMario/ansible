@@ -1,0 +1,35 @@
+- name: Remove Old Version
+  yum: 
+    name:
+      - docker
+      - docker-client
+      - docker-client-latest
+      - docker-common
+      - docker-latest
+      - docker-latest-logrotate
+      - docker-logrotate
+      - docker-selinux
+      - docker-engine-selinux
+      - docker-engine
+    state: absent
+  become: yes
+  become_method: sudo
+
+- name: yum install utils
+  yum: 
+    name: 
+      - yum-utils
+      - device-mapper-persistent-data
+      - lvm2
+
+- name: yum docker Repository
+  command: yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+  become: yes
+  become_method: sudo
+
+- name: install docker ce
+  yum: 
+    name: docker-ce
+    state: latest
+  become: yes
+  become_method: sudo
