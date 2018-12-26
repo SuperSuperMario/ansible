@@ -3,3 +3,4 @@
   remote_user: vagrant
   roles: 
     - docker
+    

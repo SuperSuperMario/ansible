@@ -21,6 +21,9 @@
       - yum-utils
       - device-mapper-persistent-data
       - lvm2
+    state: latest
+  become: yes
+  become_method: sudo
 
 - name: yum docker Repository
   command: yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
