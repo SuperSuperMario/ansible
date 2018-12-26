@@ -1,0 +1,23 @@
+---
+# - name: init aliyun source
+#   command: wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-6.repo 
+#   become: yes
+#   become_method: sudo
+
+- name: yum aliyun ius-release
+  yum: 
+    name: https://centos7.iuscommunity.org/ius-release.rpm
+    state: latest
+  become: yes
+  become_method: sudo
+
+- name: yum install python 
+  yum:
+    name:
+      - python36u
+      - python36u-libs 
+      - python36u-devel 
+      - python36u-pip
+    state: latest
+  become: yes
+  become_method: sudo

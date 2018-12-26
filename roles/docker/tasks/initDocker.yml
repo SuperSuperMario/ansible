@@ -36,3 +36,11 @@
     state: latest
   become: yes
   become_method: sudo
+
+# 设置自启动
+- name: systemctl enable docker
+  systemd:
+    name: docker
+    enabled: true
+  become: yes
+  become_method: sudo
