@@ -11,6 +11,8 @@
   become: yes
   become_method: sudo
 
+# yum install python36 与 python36u冲突，会导致安装不上
+# 首先如果报错，首先yum remove python36 ，再执行就好了
 - name: yum install python 
   yum:
     name:
