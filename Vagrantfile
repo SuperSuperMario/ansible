@@ -9,22 +9,43 @@ Vagrant.configure("2") do |config|
   config.vm.define "master", primary: true do |master|
     master.vm.hostname = "master-node"
     master.vm.network "private_network", ip: "192.168.33.10"
-
+    master.vm.provision "shell", inline: <<-SHELL
+      # 启动docker swarm
+      sudo docker swarm init --advertise-addr eth1
+    SHELL
   end
 
   config.vm.define "nodeA" do |nodeA|
     nodeA.vm.hostname = "worker-nodeA"
     nodeA.vm.network "private_network", ip: "192.168.33.11"
+    nodeA.vm.provision "shell", inline: <<-SHELL
+      # 启动docker swarm
+      docker swarm join \
+        --token SWMTKN-1-5p2v34obleqckqx87v46kxksf768eqg2ew0qie7a3nig8ny64w-0z3kv1vi8sx9ema0ripoa7gs9 \
+        192.168.33.10:2377
+    SHELL
   end
 
   config.vm.define "nodeB" do |nodeB|
     nodeB.vm.hostname = "worker-nodeB"
     nodeB.vm.network "private_network", ip: "192.168.33.12"
+    nodeB.vm.provision "shell", inline: <<-SHELL
+      # 启动docker swarm
+      docker swarm join \
+        --token SWMTKN-1-5p2v34obleqckqx87v46kxksf768eqg2ew0qie7a3nig8ny64w-0z3kv1vi8sx9ema0ripoa7gs9 \
+        192.168.33.10:2377
+    SHELL
   end
 
   config.vm.define "nodeC" do |nodeC|
     nodeC.vm.hostname = "worker-nodeC"
     nodeC.vm.network "private_network", ip: "192.168.33.13"
+    nodeC.vm.provision "shell", inline: <<-SHELL
+      # 启动docker swarm
+      docker swarm join \
+        --token SWMTKN-1-5p2v34obleqckqx87v46kxksf768eqg2ew0qie7a3nig8ny64w-0z3kv1vi8sx9ema0ripoa7gs9 \
+        192.168.33.10:2377
+    SHELL
   end
 
 
@@ -80,8 +101,10 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #   apt-get install -y apache2
-  # SHELL
+  config.vm.provision "shell", inline: <<-SHELL
+    # Docker need this config
+    # Open these
+    echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
+    echo '1' > /proc/sys/net/bridge/bridge-nf-call-ip6tables
+  SHELL
 end
