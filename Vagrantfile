@@ -104,7 +104,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     # Docker need this config
     # Open these
-    echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
-    echo '1' > /proc/sys/net/bridge/bridge-nf-call-ip6tables
+    sudo echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
+    sudo echo '1' > /proc/sys/net/bridge/bridge-nf-call-ip6tables
   SHELL
 end
